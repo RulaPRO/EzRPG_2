@@ -1,7 +1,6 @@
 ﻿namespace Core.Services.UI
 {
-    public class UIScreen
+    public abstract class UIScreen : BaseUIUnit
     {
-        
     }
 }

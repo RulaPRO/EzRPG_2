@@ -1,7 +1,6 @@
 ﻿namespace Core.Services.UI
 {
-    public class UIPopup
+    public class UIPopup : BaseUIUnit
     {
-        
     }
 }

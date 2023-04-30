@@ -4,19 +4,11 @@ namespace Core.Services.Interfaces
 {
     public interface IUIService
     {
-        TScreen ShowScreenAsync<TScreen>()
-            where TScreen : UIScreen;
+        TScreen GetScreen<TScreen>() where TScreen : UIScreen;
+        TScreen ShowScreen<TScreen>() where TScreen : UIScreen;
+        void HideScreen<TScreen>() where TScreen : UIScreen;
 
-        void HideScreenAsync<TScreen>()
-            where TScreen : UIScreen;
-
-        TPopup ShowPopupAsync<TPopup>()
-            where TPopup : UIPopup;
-
-        void HidePopupAsync<TPopup>()
-            where TPopup : UIPopup;
-
-        T GetScreen<T>()
-            where T : UIScreen;
+        TPopup ShowPopup<TPopup>() where TPopup : UIPopup;
+        void HidePopup<TPopup>() where TPopup : UIPopup;
     }
 }
