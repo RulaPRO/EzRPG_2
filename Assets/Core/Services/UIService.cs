@@ -16,10 +16,14 @@ namespace Core.Services
         private readonly Dictionary<Type, UIScreen> createdScreens = new();
         private readonly Dictionary<Type, UIPopup> createdPopups = new();
 
+        private readonly IUIFactory uiFactory;
+
         public RootCanvas RootCanvas { get; private set; }
 
-        public UIService()
+        public UIService(IUIFactory uiFactory)
         {
+            this.uiFactory = uiFactory;
+
             Debug.LogError("UIService Create");
 
             CreateUIRoot();
@@ -29,7 +33,7 @@ namespace Core.Services
         {
             if (!createdScreens.ContainsKey(typeof(TScreen)))
             {
-                createdScreens.Add(typeof(TScreen), CreateScreen<TScreen>());
+                createdScreens.Add(typeof(TScreen), uiFactory.CreateScreen<TScreen>(RootCanvas.transform));
             }
 
             return createdScreens[typeof(TScreen)] as TScreen;
@@ -58,17 +62,6 @@ namespace Core.Services
             var rootCanvasPrefab = Resources.Load<RootCanvas>(ROOT_CANVAS_PREFAB_PATH);
             RootCanvas = Object.Instantiate(rootCanvasPrefab);
             Object.DontDestroyOnLoad(RootCanvas);
-        }
-
-        private TScreen CreateScreen<TScreen>() where TScreen : UIScreen
-        {
-            const string GAMEPLAY_HUD_SCREEN_PREFAB_KEY = "UI/Screens/GameplayHUDScreen";
-
-            var gameplayHUDScreenPrefab = Resources.Load<GameplayHUDScreen>(GAMEPLAY_HUD_SCREEN_PREFAB_KEY);
-            var gameplayHUDScreen = Object.Instantiate(gameplayHUDScreenPrefab, RootCanvas.transform);
-
-            return gameplayHUDScreen as TScreen;
-
         }
 
         public void Dispose()
