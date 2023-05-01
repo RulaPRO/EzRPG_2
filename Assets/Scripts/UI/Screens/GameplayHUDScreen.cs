@@ -15,7 +15,7 @@ namespace UI.Screens
         [Inject]
         public void Construct(IUIService uiService)
         {
-            Debug.LogError("HUDScreen Construct");
+            Debug.LogError($"HUDScreen Construct {uiService.GetType()}");
         }
     }
 }

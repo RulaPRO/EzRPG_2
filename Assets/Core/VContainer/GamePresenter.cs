@@ -1,6 +1,5 @@
 ﻿using Core.Services.Interfaces;
 using UI.Screens;
-using UnityEngine;
 using VContainer.Unity;
 
 namespace Core.VContainer
