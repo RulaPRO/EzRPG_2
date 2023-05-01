@@ -1,6 +1,7 @@
 ﻿using Core.Factories.Interfaces;
 using Core.Services.Interfaces;
 using Core.Services.UI;
+using UI.Popups;
 using UI.Screens;
 using UnityEngine;
 using VContainer;
@@ -25,6 +26,17 @@ namespace Core.Factories
             objectResolver.Inject(gameplayHUDScreen);
 
             return gameplayHUDScreen as TScreen;
+        }
+
+        public TPopup CreatePopup<TPopup>(Transform parent) where TPopup : UIPopup
+        {
+            const string CONFIRMATION_POPUP_PREFAB_KEY = "UI/Popups/ConfirmationPopup";
+
+            var confirmationPopupPrefab = Resources.Load<ConfirmationPopup>(CONFIRMATION_POPUP_PREFAB_KEY);
+            var confirmationPopup = Object.Instantiate(confirmationPopupPrefab, parent);
+            objectResolver.Inject(confirmationPopup);
+
+            return confirmationPopup as TPopup;
         }
     }
 }

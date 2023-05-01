@@ -8,6 +8,7 @@ namespace Core.Services.Interfaces
         TScreen ShowScreen<TScreen>() where TScreen : UIScreen;
         void HideScreen<TScreen>() where TScreen : UIScreen;
 
+        TPopup GetPopup<TPopup>() where TPopup : UIPopup;
         TPopup ShowPopup<TPopup>() where TPopup : UIPopup;
         void HidePopup<TPopup>() where TPopup : UIPopup;
     }

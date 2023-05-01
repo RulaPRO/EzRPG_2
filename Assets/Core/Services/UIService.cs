@@ -53,13 +53,27 @@ namespace Core.Services
             GetScreen<TScreen>().Hide();
         }
 
+        public TPopup GetPopup<TPopup>() where TPopup : UIPopup
+        {
+            if (!createdPopups.ContainsKey(typeof(TPopup)))
+            {
+                createdPopups.Add(typeof(TPopup), uiFactory.CreatePopup<TPopup>(RootCanvas.transform));
+            }
+
+            return createdPopups[typeof(TPopup)] as TPopup;
+        }
+
         public TPopup ShowPopup<TPopup>() where TPopup : UIPopup
         {
-            return null;
+            var uiPopup = GetPopup<TPopup>();
+            uiPopup.Show();
+
+            return uiPopup;
         }
 
         public void HidePopup<TPopup>() where TPopup : UIPopup
         {
+            GetPopup<TPopup>().Hide();
         }
 
         public void Dispose()
