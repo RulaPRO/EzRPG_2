@@ -10,12 +10,15 @@ namespace UI.Screens
     {
         [SerializeField] private Button button;
 
-        public Button Button => button;
-
         [Inject]
         public void Construct(IUIService uiService)
         {
-            Debug.LogError($"HUDScreen Construct {uiService.GetType()}");
+            Debug.Log($"GameplayHUDScreen Construct. Inject - {uiService.GetType()}");
+        }
+
+        private void Start()
+        {
+            button.onClick.AddListener(() => Debug.Log("GameplayHUDScreen Button Click"));
         }
     }
 }

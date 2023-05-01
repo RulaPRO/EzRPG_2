@@ -1,7 +1,7 @@
 ﻿using Core.Services.UI;
 using UnityEngine;
 
-namespace Core.Services.Interfaces
+namespace Core.Factories.Interfaces
 {
     public interface IUIFactory
     {

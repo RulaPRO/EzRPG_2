@@ -1,8 +1,8 @@
 using Core.Factories;
+using Core.Factories.Interfaces;
 using Core.Services;
 using Core.Services.Interfaces;
 using Core.VContainer;
-using UI.Screens;
 using VContainer;
 using VContainer.Unity;
 
@@ -13,8 +13,6 @@ public class GameLifetimeScope : LifetimeScope
         builder.Register<IUIFactory, UIFactory>(Lifetime.Singleton);
         builder.Register<IUIService, UIService>(Lifetime.Singleton);
 
-        builder.RegisterComponentOnNewGameObject<GameplayHUDScreen>(Lifetime.Scoped);
-
-        builder.RegisterEntryPoint<GamePresenter>();
+        builder.RegisterEntryPoint<GameSessionStarter>();
     }
 }

@@ -1,15 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using Core.Factories.Interfaces;
 using Core.Services.Interfaces;
 using Core.Services.UI;
 using UI;
-using UI.Screens;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Core.Services
 {
-    public class UIService : IUIService
+    public class UIService : IUIService, IDisposable
     {
         private const string ROOT_CANVAS_PREFAB_PATH = "UI/RootCanvas";
 
@@ -18,15 +18,16 @@ namespace Core.Services
 
         private readonly IUIFactory uiFactory;
 
-        public RootCanvas RootCanvas { get; private set; }
+        public RootCanvas RootCanvas { get; }
 
         public UIService(IUIFactory uiFactory)
         {
             this.uiFactory = uiFactory;
 
-            Debug.LogError("UIService Create");
-
-            CreateUIRoot();
+            // Create UIRoot
+            var rootCanvasPrefab = Resources.Load<RootCanvas>(ROOT_CANVAS_PREFAB_PATH);
+            RootCanvas = Object.Instantiate(rootCanvasPrefab);
+            Object.DontDestroyOnLoad(RootCanvas);
         }
 
         public TScreen GetScreen<TScreen>() where TScreen : UIScreen
@@ -41,11 +42,15 @@ namespace Core.Services
 
         public TScreen ShowScreen<TScreen>() where TScreen : UIScreen
         {
-            return null;
+            var uiScreen = GetScreen<TScreen>();
+            uiScreen.Show();
+
+            return uiScreen;
         }
 
         public void HideScreen<TScreen>() where TScreen : UIScreen
         {
+            GetScreen<TScreen>().Hide();
         }
 
         public TPopup ShowPopup<TPopup>() where TPopup : UIPopup
@@ -55,13 +60,6 @@ namespace Core.Services
 
         public void HidePopup<TPopup>() where TPopup : UIPopup
         {
-        }
-
-        private void CreateUIRoot()
-        {
-            var rootCanvasPrefab = Resources.Load<RootCanvas>(ROOT_CANVAS_PREFAB_PATH);
-            RootCanvas = Object.Instantiate(rootCanvasPrefab);
-            Object.DontDestroyOnLoad(RootCanvas);
         }
 
         public void Dispose()

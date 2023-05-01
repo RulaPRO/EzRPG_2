@@ -4,11 +4,11 @@ using VContainer.Unity;
 
 namespace Core.VContainer
 {
-    public class GamePresenter : IStartable
+    public class GameSessionStarter : IStartable
     {
         private readonly IUIService uiService;
 
-        public GamePresenter(IUIService uiService)
+        public GameSessionStarter(IUIService uiService)
         {
             this.uiService = uiService;
         }
