@@ -1,8 +1,8 @@
 ﻿using Core.Factories.Interfaces;
-using Core.Services.Interfaces;
 using Core.Services.UI;
 using UI.Popups;
 using UI.Screens;
+using UI.Widgets;
 using UnityEngine;
 using VContainer;
 
@@ -37,6 +37,17 @@ namespace Core.Factories
             objectResolver.Inject(confirmationPopup);
 
             return confirmationPopup as TPopup;
+        }
+
+        public TWidget CreateWidget<TWidget>(Transform parent) where TWidget : UIWidget
+        {
+            const string TOP_BAR_WIDGET_PREFAB_KEY = "UI/Widgets/TopBarWidget";
+
+            var topBarWidgetPrefab = Resources.Load<TopBarWidget>(TOP_BAR_WIDGET_PREFAB_KEY);
+            var topBarWidget = Object.Instantiate(topBarWidgetPrefab, parent);
+            objectResolver.Inject(topBarWidget);
+
+            return topBarWidget as TWidget;
         }
     }
 }

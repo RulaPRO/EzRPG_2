@@ -11,5 +11,9 @@ namespace Core.Services.Interfaces
         TPopup GetPopup<TPopup>() where TPopup : UIPopup;
         TPopup ShowPopup<TPopup>() where TPopup : UIPopup;
         void HidePopup<TPopup>() where TPopup : UIPopup;
+
+        TWidget GetWidget<TWidget>() where TWidget : UIWidget;
+        TWidget ShowWidget<TWidget>() where TWidget : UIWidget;
+        void HideWidget<TWidget>() where TWidget : UIWidget;
     }
 }

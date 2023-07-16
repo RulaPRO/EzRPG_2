@@ -13,12 +13,11 @@ namespace Core.Services
     {
         private const string ROOT_CANVAS_PREFAB_PATH = "UI/RootCanvas";
 
-        private readonly Dictionary<Type, UIScreen> createdScreens = new();
         private readonly Dictionary<Type, UIPopup> createdPopups = new();
+        private readonly Dictionary<Type, UIScreen> createdScreens = new();
+        private readonly Dictionary<Type, UIWidget> createdWidgets = new();
 
         private readonly IUIFactory uiFactory;
-
-        public RootCanvas RootCanvas { get; }
 
         public UIService(IUIFactory uiFactory)
         {
@@ -28,6 +27,13 @@ namespace Core.Services
             var rootCanvasPrefab = Resources.Load<RootCanvas>(ROOT_CANVAS_PREFAB_PATH);
             RootCanvas = Object.Instantiate(rootCanvasPrefab);
             Object.DontDestroyOnLoad(RootCanvas);
+        }
+
+        public RootCanvas RootCanvas { get; }
+
+        public void Dispose()
+        {
+            if (RootCanvas) Object.Destroy(RootCanvas.gameObject);
         }
 
         public TScreen GetScreen<TScreen>() where TScreen : UIScreen
@@ -42,10 +48,10 @@ namespace Core.Services
 
         public TScreen ShowScreen<TScreen>() where TScreen : UIScreen
         {
-            var uiScreen = GetScreen<TScreen>();
-            uiScreen.Show();
+            var screen = GetScreen<TScreen>();
+            screen.Show();
 
-            return uiScreen;
+            return screen;
         }
 
         public void HideScreen<TScreen>() where TScreen : UIScreen
@@ -65,10 +71,10 @@ namespace Core.Services
 
         public TPopup ShowPopup<TPopup>() where TPopup : UIPopup
         {
-            var uiPopup = GetPopup<TPopup>();
-            uiPopup.Show();
+            var popup = GetPopup<TPopup>();
+            popup.Show();
 
-            return uiPopup;
+            return popup;
         }
 
         public void HidePopup<TPopup>() where TPopup : UIPopup
@@ -76,12 +82,27 @@ namespace Core.Services
             GetPopup<TPopup>().Hide();
         }
 
-        public void Dispose()
+        public TWidget GetWidget<TWidget>() where TWidget : UIWidget
         {
-            if (RootCanvas)
+            if (!createdWidgets.ContainsKey(typeof(TWidget)))
             {
-                Object.Destroy(RootCanvas.gameObject);
+                createdWidgets.Add(typeof(TWidget), uiFactory.CreateWidget<TWidget>(RootCanvas.transform));
             }
+
+            return createdWidgets[typeof(TWidget)] as TWidget;
+        }
+
+        public TWidget ShowWidget<TWidget>() where TWidget : UIWidget
+        {
+            var widget = GetWidget<TWidget>();
+            widget.Show();
+
+            return widget;
+        }
+
+        public void HideWidget<TWidget>() where TWidget : UIWidget
+        {
+            GetWidget<TWidget>().Hide();
         }
     }
 }

@@ -7,5 +7,6 @@ namespace Core.Factories.Interfaces
     {
         TScreen CreateScreen<TScreen>(Transform parent) where TScreen : UIScreen;
         TPopup CreatePopup<TPopup>(Transform parent) where TPopup : UIPopup;
+        TWidget CreateWidget<TWidget>(Transform parent) where TWidget : UIWidget;
     }
 }
