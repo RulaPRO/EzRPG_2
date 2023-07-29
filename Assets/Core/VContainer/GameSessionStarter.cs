@@ -15,7 +15,7 @@ namespace Core.VContainer
 
         public void Start()
         {
-            uiService.GetScreen<GameplayHUDScreen>();
+            uiService.ShowScreen<GameplayHUDScreen>();
         }
     }
 }

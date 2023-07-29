@@ -7,7 +7,7 @@ namespace Commands
     {
         public void Execute()
         {
-            Debug.LogError("Hello word!!! [HelloWordCommand Execute]");
+            Debug.LogError("[HelloWordCommand Execute] Hello word!!!");
         }
     }
 }

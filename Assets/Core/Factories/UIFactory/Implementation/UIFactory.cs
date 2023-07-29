@@ -30,13 +30,11 @@ namespace Core.Factories
 
         public TPopup CreatePopup<TPopup>(Transform parent) where TPopup : UIPopup
         {
-            const string CONFIRMATION_POPUP_PREFAB_KEY = "UI/Popups/ConfirmationPopup";
+            var popupPrefab = Resources.Load<TPopup>($"UI/Popups/{typeof(TPopup).Name}");
+            var instance = Object.Instantiate(popupPrefab, parent);
+            objectResolver.Inject(instance);
 
-            var confirmationPopupPrefab = Resources.Load<ConfirmationPopup>(CONFIRMATION_POPUP_PREFAB_KEY);
-            var confirmationPopup = Object.Instantiate(confirmationPopupPrefab, parent);
-            objectResolver.Inject(confirmationPopup);
-
-            return confirmationPopup as TPopup;
+            return instance;
         }
 
         public TWidget CreateWidget<TWidget>(Transform parent) where TWidget : UIWidget
