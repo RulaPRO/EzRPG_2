@@ -1,8 +1,6 @@
 ﻿using Core.Factories.Interfaces;
 using Core.Services.UI;
-using UI.Popups;
 using UI.Screens;
-using UI.Widgets;
 using UnityEngine;
 using VContainer;
 
@@ -30,24 +28,20 @@ namespace Core.Factories
 
         public TPopup CreatePopup<TPopup>(Transform parent) where TPopup : UIPopup
         {
-            const string CONFIRMATION_POPUP_PREFAB_KEY = "UI/Popups/ConfirmationPopup";
+            var popupPrefab = Resources.Load<TPopup>($"UI/Popups/{typeof(TPopup).Name}");
+            var instance = Object.Instantiate(popupPrefab, parent);
+            objectResolver.Inject(instance);
 
-            var confirmationPopupPrefab = Resources.Load<ConfirmationPopup>(CONFIRMATION_POPUP_PREFAB_KEY);
-            var confirmationPopup = Object.Instantiate(confirmationPopupPrefab, parent);
-            objectResolver.Inject(confirmationPopup);
-
-            return confirmationPopup as TPopup;
+            return instance;
         }
 
         public TWidget CreateWidget<TWidget>(Transform parent) where TWidget : UIWidget
         {
-            const string TOP_BAR_WIDGET_PREFAB_KEY = "UI/Widgets/TopBarWidget";
+            var widgetPrefab = Resources.Load<TWidget>($"UI/Widgets/{typeof(TWidget).Name}");
+            var instance = Object.Instantiate(widgetPrefab, parent);
+            objectResolver.Inject(instance);
 
-            var topBarWidgetPrefab = Resources.Load<TopBarWidget>(TOP_BAR_WIDGET_PREFAB_KEY);
-            var topBarWidget = Object.Instantiate(topBarWidgetPrefab, parent);
-            objectResolver.Inject(topBarWidget);
-
-            return topBarWidget as TWidget;
+            return instance;
         }
     }
 }
