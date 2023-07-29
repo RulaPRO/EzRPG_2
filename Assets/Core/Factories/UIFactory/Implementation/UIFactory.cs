@@ -1,8 +1,6 @@
 ﻿using Core.Factories.Interfaces;
 using Core.Services.UI;
-using UI.Popups;
 using UI.Screens;
-using UI.Widgets;
 using UnityEngine;
 using VContainer;
 
@@ -39,13 +37,11 @@ namespace Core.Factories
 
         public TWidget CreateWidget<TWidget>(Transform parent) where TWidget : UIWidget
         {
-            const string TOP_BAR_WIDGET_PREFAB_KEY = "UI/Widgets/TopBarWidget";
+            var widgetPrefab = Resources.Load<TWidget>($"UI/Widgets/{typeof(TWidget).Name}");
+            var instance = Object.Instantiate(widgetPrefab, parent);
+            objectResolver.Inject(instance);
 
-            var topBarWidgetPrefab = Resources.Load<TopBarWidget>(TOP_BAR_WIDGET_PREFAB_KEY);
-            var topBarWidget = Object.Instantiate(topBarWidgetPrefab, parent);
-            objectResolver.Inject(topBarWidget);
-
-            return topBarWidget as TWidget;
+            return instance;
         }
     }
 }

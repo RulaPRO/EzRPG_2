@@ -1,6 +1,5 @@
 ﻿using Commands;
 using Core.CommandRunner.Interfaces;
-using Core.Services.Interfaces;
 using Core.Services.UI;
 using UI.Popups;
 using UI.Widgets;
@@ -15,36 +14,33 @@ namespace UI.Screens
         [SerializeField] private Button button;
 
         private ICommandExecutionService commandExecutionService;
-        private IUIService uiService;
 
         private void Start()
         {
-            button.onClick.AddListener(() => uiService.ShowPopup<ConfirmationPopup>());
+            button.onClick.AddListener(() =>
+            {
+                commandExecutionService.Execute<ShowPopupCommand<ConfirmationPopup>>();
+            });
         }
 
         [Inject]
-        public void Construct(ICommandExecutionService commandExecutionService, IUIService uiService)
+        public void Construct(ICommandExecutionService commandExecutionService)
         {
             this.commandExecutionService = commandExecutionService;
-            this.uiService = uiService;
-
-            Debug.Log($"GameplayHUDScreen Construct. Inject - {uiService.GetType()}");
         }
 
         public override void Show()
         {
-            commandExecutionService.Execute<HelloWordCommand>();
-            
             base.Show();
 
-            uiService.ShowWidget<TopBarWidget>();
+            commandExecutionService.Execute<ShowWidgetCommand<TopBarWidget>>();
         }
 
         public override void Hide()
         {
             base.Hide();
 
-            uiService.HideWidget<TopBarWidget>();
+            commandExecutionService.Execute<ShowWidgetCommand<TopBarWidget>>();
         }
     }
 }
