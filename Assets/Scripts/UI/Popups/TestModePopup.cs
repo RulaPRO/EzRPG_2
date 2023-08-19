@@ -10,25 +10,34 @@ namespace UI.Popups
 {
     public class TestModePopup : UIPopup
     {
+        [SerializeField] private Button closeButton = default;
         [SerializeField] private Button addHealthButton = default;
         [SerializeField] private Button removeHealthButton = default;
 
         private ICommandExecutionService commandExecutionService;
-        private IHealthService healthService;
 
         private void Start()
         {
+            closeButton.onClick.AddListener(() =>
+            {
+                commandExecutionService.Execute<HidePopupCommand<TestModePopup>>();
+            });
+
             addHealthButton.onClick.AddListener(() =>
             {
-                commandExecutionService.Execute<HelloWordCommand>();
+                commandExecutionService.Execute<IncreaseHealthCommand, IncreaseHealthData>(new IncreaseHealthData {Value = 10});
+            });
+
+            removeHealthButton.onClick.AddListener(() =>
+            {
+                commandExecutionService.Execute<DecreaseHealthCommand, DecreaseHealthData>(new DecreaseHealthData {Value = 10});
             });
         }
 
         [Inject]
-        public void Construct(ICommandExecutionService commandExecutionService, IHealthService healthService)
+        public void Construct(ICommandExecutionService commandExecutionService)
         {
             this.commandExecutionService = commandExecutionService;
-            this.healthService = healthService;
         }
     }
 }

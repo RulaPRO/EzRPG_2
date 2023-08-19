@@ -2633,6 +2633,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bf236c55e9664ca98f2c384fb9bb8cd1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  closeButton: {fileID: 8830711625568159669}
   addHealthButton: {fileID: 8830711626549144048}
   removeHealthButton: {fileID: 8830711625676964745}
 --- !u!1 &8830711625396007167
