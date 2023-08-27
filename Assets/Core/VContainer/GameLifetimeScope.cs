@@ -3,6 +3,8 @@ using Core.CommandRunner.Interfaces;
 using Core.Factories;
 using Core.Factories.Interfaces;
 using Core.Services;
+using Core.Services.EquipmentService.Implementation;
+using Core.Services.EquipmentService.Interfaces;
 using Core.Services.HealthService.Implementation;
 using Core.Services.HealthService.Interfaces;
 using Core.Services.Interfaces;
@@ -21,6 +23,8 @@ public class GameLifetimeScope : LifetimeScope
         builder.Register<IUIService, UIService>(Lifetime.Singleton);
 
         builder.Register<IHealthService, HealthService>(Lifetime.Singleton);
+
+        builder.Register<IEquipmentService, EquipmentService>(Lifetime.Singleton);
 
         builder.RegisterEntryPoint<GameSessionStarter>();
     }
