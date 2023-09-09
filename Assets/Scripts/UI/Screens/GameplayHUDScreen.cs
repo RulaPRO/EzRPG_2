@@ -11,15 +11,21 @@ namespace UI.Screens
 {
     public class GameplayHUDScreen : UIScreen
     {
-        [SerializeField] private Button button;
+        [SerializeField] private Button buttonHelloWorld;
+        [SerializeField] private Button buttonInventory;
 
         private ICommandExecutionService commandExecutionService;
 
         private void Start()
         {
-            button.onClick.AddListener(() =>
+            buttonHelloWorld.onClick.AddListener(() =>
             {
                 commandExecutionService.Execute<ShowPopupCommand<ConfirmationPopup>>();
+            });
+
+            buttonInventory.onClick.AddListener(() =>
+            {
+                commandExecutionService.Execute<ShowPopupCommand<InventoryPopup>>();
             });
         }
 
