@@ -13,6 +13,7 @@ namespace UI.Screens
     {
         [SerializeField] private Button buttonHelloWorld;
         [SerializeField] private Button buttonInventory;
+        [SerializeField] private Button buttonProduction;
 
         private ICommandExecutionService commandExecutionService;
 
@@ -26,6 +27,11 @@ namespace UI.Screens
             buttonInventory.onClick.AddListener(() =>
             {
                 commandExecutionService.Execute<ShowPopupCommand<InventoryPopup>>();
+            });
+
+            buttonProduction.onClick.AddListener(() =>
+            {
+                commandExecutionService.Execute<ShowPopupCommand<ProductionPopup>>();
             });
         }
 

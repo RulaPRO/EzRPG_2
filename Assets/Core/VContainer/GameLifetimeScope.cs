@@ -8,6 +8,8 @@ using Core.Services.EquipmentService.Interfaces;
 using Core.Services.HealthService.Implementation;
 using Core.Services.HealthService.Interfaces;
 using Core.Services.Interfaces;
+using Core.Services.ProductionService.Implementation;
+using Core.Services.ProductionService.Interfaces;
 using Core.VContainer;
 using VContainer;
 using VContainer.Unity;
@@ -25,6 +27,8 @@ public class GameLifetimeScope : LifetimeScope
         builder.Register<IHealthService, HealthService>(Lifetime.Singleton);
 
         builder.Register<IEquipmentService, EquipmentService>(Lifetime.Singleton);
+
+        builder.Register<IProductionService, ProductionService>(Lifetime.Singleton);
 
         builder.RegisterEntryPoint<GameSessionStarter>();
     }
