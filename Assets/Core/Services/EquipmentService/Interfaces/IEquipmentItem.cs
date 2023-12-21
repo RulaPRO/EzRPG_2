@@ -1,8 +1,8 @@
-﻿namespace Core.Services.EquipmentService.Interfaces
+﻿using Core.Services.InventoryService.Interfaces;
+
+namespace Core.Services.EquipmentService.Interfaces
 {
-    public interface IEquipmentItem
+    public interface IEquipmentItem : IInventoryObject, IHaveEquipmentType, IHaveLevel
     {
-        int BalanceID { get; }
-        int TypeID { get; }
     }
 }
