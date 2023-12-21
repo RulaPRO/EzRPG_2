@@ -5,11 +5,14 @@ namespace Core.Services.EquipmentService.Interfaces
 {
     public interface IEquipmentService
     {
-        event Action OnEquipmentItemsUpdated;
+        event Action<string> OnItemAdded;
+        event Action<string> OnItemRemoved;
+        event Action<string> OnItemRarityUpgraded;
 
-        IReadOnlyList< IEquipmentItem> EquipmentItems { get; }
+        IReadOnlyDictionary<string, IEquipmentItem> AvailableItems { get; }
 
         void AddItem(IEquipmentItem equipmentItem);
         void RemoveItem(IEquipmentItem equipmentItem);
+        bool TryUpgradeItemRarity(string id);
     }
 }

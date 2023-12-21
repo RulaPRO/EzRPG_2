@@ -1,35 +1,56 @@
 ﻿using System;
 using System.Collections.Generic;
 using Core.Services.EquipmentService.Interfaces;
-using UnityEngine;
+using Core.Services.InventoryService.Interfaces;
+using Core.Services.UpgradeEquipmentService.Interfaces;
+using VContainer;
 
 namespace Core.Services.EquipmentService.Implementation
 {
     public class EquipmentService : IEquipmentService
     {
-        public event Action OnEquipmentItemsUpdated;
+        public event Action<string> OnItemAdded;
+        public event Action<string> OnItemRemoved;
+        public event Action<string> OnItemRarityUpgraded;
+        public IReadOnlyDictionary<string, IEquipmentItem> AvailableItems => availableItems;
 
-        public IReadOnlyList<IEquipmentItem> EquipmentItems => equipmentItems;
+        private Dictionary<string, IEquipmentItem> availableItems = new();
 
-        private List<IEquipmentItem> equipmentItems = new();
+        private IUpgradeEquipmentService upgradeEquipmentService;
 
-        public EquipmentService()
+        [Inject]
+        public EquipmentService(IUpgradeEquipmentService upgradeEquipmentService)
         {
-            equipmentItems.Add(new EquipmentItem(1));
+            this.upgradeEquipmentService = upgradeEquipmentService;
+
+            AddItem(new EquipmentItem(RarityType.Common));
+            AddItem(new EquipmentItem(RarityType.Uncommon));
+            AddItem(new EquipmentItem(RarityType.Rare));
+            AddItem(new EquipmentItem(RarityType.Epic));
         }
 
         public void AddItem(IEquipmentItem equipmentItem)
         {
-            equipmentItems.Add(equipmentItem);
+            availableItems.Add(equipmentItem.ObjectId, equipmentItem);
 
-            OnEquipmentItemsUpdated?.Invoke();
+            OnItemAdded?.Invoke(equipmentItem.ObjectId);
         }
 
         public void RemoveItem(IEquipmentItem equipmentItem)
         {
-            equipmentItems.Remove(equipmentItem);
+            availableItems.Remove(equipmentItem.ObjectId);
 
-            OnEquipmentItemsUpdated?.Invoke();
+            OnItemRemoved?.Invoke(equipmentItem.ObjectId);
+        }
+
+        public bool TryUpgradeItemRarity(string id)
+        {
+            var upgradedEquipmentItem = upgradeEquipmentService.UpgradeEquipmentRarity(availableItems[id]);
+            availableItems[id] = upgradedEquipmentItem;
+
+            OnItemRarityUpgraded?.Invoke(id);
+
+            return true;
         }
     }
 }
