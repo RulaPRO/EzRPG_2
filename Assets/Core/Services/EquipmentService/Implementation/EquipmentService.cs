@@ -23,10 +23,7 @@ namespace Core.Services.EquipmentService.Implementation
         {
             this.upgradeEquipmentService = upgradeEquipmentService;
 
-            AddItem(new EquipmentItem(RarityType.Common));
-            AddItem(new EquipmentItem(RarityType.Uncommon));
-            AddItem(new EquipmentItem(RarityType.Rare));
-            AddItem(new EquipmentItem(RarityType.Epic));
+            AddItem(new EquipmentItem());
         }
 
         public void AddItem(IEquipmentItem equipmentItem)
