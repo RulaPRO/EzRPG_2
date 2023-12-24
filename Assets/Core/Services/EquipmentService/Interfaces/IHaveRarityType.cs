@@ -1,11 +1,8 @@
-﻿using System;
-
-namespace Core.Services.InventoryService.Interfaces
+﻿namespace Core.Services.InventoryService.Interfaces
 {
     public interface IHaveRarityType
     {
         RarityType RarityType { get; }
-        event Action OnRarityChanged;
     }
 
     public enum RarityType
