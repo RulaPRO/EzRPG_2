@@ -10,47 +10,24 @@ namespace Core.Services.EquipmentService.Implementation
         public RarityType RarityType { get; }
         public EquipmentType EquipmentType { get; }
 
-        public int Level { get; }
-        public bool IsLevelMax => Level < 10;
+        public int CurrentLevel { get; }
+        public int MaxLevel => (int)RarityType * 10;
+        public bool IsLevelMax => CurrentLevel == MaxLevel;
 
         public EquipmentItem()
         {
             ObjectId = Guid.NewGuid().ToString();
             EquipmentType = EquipmentType.Weapon;
             RarityType = RarityType.Common;
-            Level = 1;
+            CurrentLevel = 1;
         }
 
-        public EquipmentItem(RarityType rarityType)
-        {
-            ObjectId = Guid.NewGuid().ToString();
-            EquipmentType = EquipmentType.Weapon;
-            RarityType = rarityType;
-            Level = 1;
-        }
-
-        public EquipmentItem(string objectId)
-        {
-            ObjectId = objectId;
-            EquipmentType = EquipmentType.Weapon;
-            RarityType = RarityType.Common;
-            Level = 1;
-        }
-
-        public EquipmentItem(string objectId, RarityType rarityType)
-        {
-            ObjectId = objectId;
-            EquipmentType = EquipmentType.Weapon;
-            RarityType = rarityType;
-            Level = 1;
-        }
-
-        public EquipmentItem(string objectId, EquipmentType equipmentType, RarityType rarityType)
+        public EquipmentItem(string objectId, EquipmentType equipmentType, RarityType rarityType, int level)
         {
             ObjectId = objectId;
             EquipmentType = equipmentType;
             RarityType = rarityType;
-            Level = 1;
+            CurrentLevel = level;
         }
     }
 }

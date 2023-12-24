@@ -2,7 +2,11 @@
 
 namespace Core.Services.EquipmentService.Interfaces
 {
-    public interface IEquipmentItem : IInventoryObject, IHaveEquipmentType, IHaveLevel
+    public interface IEquipmentItem :
+        IHaveObjectId,
+        IHaveEquipmentType,
+        IHaveRarityType,
+        IHaveLevel
     {
     }
 }
