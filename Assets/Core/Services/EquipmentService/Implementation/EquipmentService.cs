@@ -11,7 +11,7 @@ namespace Core.Services.EquipmentService.Implementation
     {
         public event Action<string> OnItemAdded;
         public event Action<string> OnItemRemoved;
-        public event Action<string> OnItemRarityUpgraded;
+        public event Action<string> OnItemUpgraded;
         public IReadOnlyDictionary<string, IEquipmentItem> AvailableItems => availableItems;
 
         private Dictionary<string, IEquipmentItem> availableItems = new();
@@ -43,12 +43,22 @@ namespace Core.Services.EquipmentService.Implementation
             OnItemRemoved?.Invoke(equipmentItem.ObjectId);
         }
 
+        public bool TryUpgradeItemLevel(string id)
+        {
+            var upgradedEquipmentItem = upgradeEquipmentService.UpgradeEquipmentLevel(availableItems[id]);
+            availableItems[id] = upgradedEquipmentItem;
+
+            OnItemUpgraded?.Invoke(id);
+
+            return true;
+        }
+
         public bool TryUpgradeItemRarity(string id)
         {
             var upgradedEquipmentItem = upgradeEquipmentService.UpgradeEquipmentRarity(availableItems[id]);
             availableItems[id] = upgradedEquipmentItem;
 
-            OnItemRarityUpgraded?.Invoke(id);
+            OnItemUpgraded?.Invoke(id);
 
             return true;
         }
