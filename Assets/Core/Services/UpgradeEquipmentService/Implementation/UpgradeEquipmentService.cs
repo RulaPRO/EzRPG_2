@@ -10,7 +10,23 @@ namespace Core.Services.UpgradeEquipmentService.Implementation
         public IEquipmentItem UpgradeEquipmentRarity(IEquipmentItem equipmentItem)
         {
             var nextRarity = (RarityType)((int)equipmentItem.RarityType + 1);
-            var upgradedItem = new EquipmentItem(equipmentItem.ObjectId, equipmentItem.EquipmentType, nextRarity);
+            var upgradedItem = new EquipmentItem(
+                equipmentItem.ObjectId,
+                equipmentItem.EquipmentType,
+                nextRarity,
+                1);
+
+            return upgradedItem;
+        }
+
+        public IEquipmentItem UpgradeEquipmentLevel(IEquipmentItem equipmentItem)
+        {
+            var nextLevel = equipmentItem.CurrentLevel + 1;
+            var upgradedItem = new EquipmentItem(
+                equipmentItem.ObjectId,
+                equipmentItem.EquipmentType,
+                equipmentItem.RarityType,
+                nextLevel);
 
             return upgradedItem;
         }
