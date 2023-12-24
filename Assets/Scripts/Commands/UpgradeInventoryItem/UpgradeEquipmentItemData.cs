@@ -1,6 +1,6 @@
 ﻿namespace Commands.UpgradeInventoryItem
 {
-    public struct UpgradeEquipmentItemRarityData
+    public struct UpgradeEquipmentItemData
     {
         public string EquipmentItemId;
     }
