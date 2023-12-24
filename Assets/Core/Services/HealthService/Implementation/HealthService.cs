@@ -13,15 +13,21 @@ namespace Core.Services.HealthService.Implementation
 
         private int currentValue;
 
+        public HealthService()
+        {
+            MaxValue = 100;
+            currentValue = MaxValue;
+        }
+
         public void IncreaseCurrentHealth(int value)
         {
             if (value <= 0)
             {
                 return;
             }
-            
+
             currentValue = Mathf.Clamp(currentValue + value, 0, MaxValue);
-            
+
             OnValueChanged?.Invoke();
         }
 
@@ -31,9 +37,9 @@ namespace Core.Services.HealthService.Implementation
             {
                 return;
             }
-            
+
             currentValue = Mathf.Clamp(currentValue - value, 0, MaxValue);
-            
+
             OnValueChanged?.Invoke();
         }
 
