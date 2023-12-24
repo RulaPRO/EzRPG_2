@@ -1,4 +1,5 @@
 ﻿using Commands;
+using Commands.UI;
 using Core.CommandRunner.Interfaces;
 using Core.Services.UI;
 using UI.Popups;
@@ -14,6 +15,7 @@ namespace UI.Screens
         [SerializeField] private Button buttonHelloWorld;
         [SerializeField] private Button buttonInventory;
         [SerializeField] private Button buttonProduction;
+        [SerializeField] private Button buttonCombat;
 
         private ICommandExecutionService commandExecutionService;
 
@@ -32,6 +34,11 @@ namespace UI.Screens
             buttonProduction.onClick.AddListener(() =>
             {
                 commandExecutionService.Execute<ShowPopupCommand<ProductionPopup>>();
+            });
+
+            buttonCombat.onClick.AddListener(() =>
+            {
+                commandExecutionService.Execute<ShowScreenCommand<CombatScreen>>();
             });
         }
 
