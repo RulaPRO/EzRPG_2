@@ -22,14 +22,14 @@ namespace Core.Services.EquipmentService.Implementation
 
             equipmentService.OnItemAdded += OnEquipmentItemAdd;
             equipmentService.OnItemRemoved += OnEquipmentItemRemove;
-            equipmentService.OnItemRarityUpgraded += OnEquipmentItemRarityUpgrade;
+            equipmentService.OnItemUpgraded += OnEquipmentItemUpgrade;
         }
 
         public void Dispose()
         {
             equipmentService.OnItemAdded -= OnEquipmentItemAdd;
             equipmentService.OnItemRemoved -= OnEquipmentItemRemove;
-            equipmentService.OnItemRarityUpgraded -= OnItemRarityUpgraded;
+            equipmentService.OnItemUpgraded -= OnItemRarityUpgraded;
         }
 
         private void OnEquipmentItemAdd(string id)
@@ -42,7 +42,7 @@ namespace Core.Services.EquipmentService.Implementation
             OnItemRarityUpgraded?.Invoke(id);
         }
 
-        private void OnEquipmentItemRarityUpgrade(string id)
+        private void OnEquipmentItemUpgrade(string id)
         {
             OnItemRarityUpgraded?.Invoke(id);
         }
