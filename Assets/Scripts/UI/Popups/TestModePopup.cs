@@ -3,6 +3,7 @@ using Core.CommandRunner.Interfaces;
 using Core.Services.EquipmentService.Implementation;
 using Core.Services.EquipmentService.Interfaces;
 using Core.Services.HealthService.Interfaces;
+using Core.Services.InventoryService.Interfaces;
 using Core.Services.ProductionService.Interfaces;
 using Core.Services.UI;
 using UnityEngine;
@@ -47,7 +48,7 @@ namespace UI.Popups
 
             addEquipmentItemId1Button.onClick.AddListener(() =>
             {
-                equipmentService.AddItem(new EquipmentItem(1));
+                equipmentService.AddItem(new EquipmentItem());
             });
         }
 

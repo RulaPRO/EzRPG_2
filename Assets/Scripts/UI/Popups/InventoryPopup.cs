@@ -1,5 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
+using Commands.UI.InventoryItemInfoPopup;
 using Core.CommandRunner.Interfaces;
 using Core.Services.EquipmentService.Interfaces;
 using Core.Services.UI;
@@ -17,53 +17,76 @@ namespace UI.Popups
         [SerializeField] private RectTransform contentRoot;
 
         private ICommandExecutionService commandExecutionService;
-        private IEquipmentService equipmentService;
+        private IEquipmentServiceProvider equipmentServiceProvider;
 
-        private List<SlotUI> slotUiItems = new ();
-        
-        [Inject]
-        public void Construct(
-            ICommandExecutionService commandExecutionService,
-            IEquipmentService equipmentService)
-        {
-            this.commandExecutionService = commandExecutionService;
-            this.equipmentService = equipmentService;
-        }
+        private readonly Dictionary<string, SlotUI> slots = new();
 
         private void Start()
         {
             buttonClose.onClick.AddListener(Hide);
-
-            equipmentService.OnEquipmentItemsUpdated += UpdateEquipmentItems;
-
-            UpdateEquipmentItems();
         }
 
         private void OnDestroy()
         {
-            equipmentService.OnEquipmentItemsUpdated -= UpdateEquipmentItems;
+            equipmentServiceProvider.OnItemAdded -= AddSlotUI;
+            equipmentServiceProvider.OnItemRemoved -= RemoveSlotUI;
+            equipmentServiceProvider.OnItemRarityUpgraded -= UpdateSlotUI;
         }
 
-        private void UpdateEquipmentItems()
+        [Inject]
+        public void Construct(
+            ICommandExecutionService commandExecutionService,
+            IEquipmentServiceProvider equipmentServiceProvider)
         {
-            int index = 0;
-            foreach (var equipmentItem in equipmentService.EquipmentItems)
+            this.commandExecutionService = commandExecutionService;
+            this.equipmentServiceProvider = equipmentServiceProvider;
+            
+            equipmentServiceProvider.OnItemAdded += AddSlotUI;
+            equipmentServiceProvider.OnItemRemoved += RemoveSlotUI;
+            equipmentServiceProvider.OnItemRarityUpgraded += UpdateSlotUI;
+
+            InitializeUI();
+        }
+
+        private void InitializeUI()
+        {
+            foreach (var equipmentItem in equipmentServiceProvider.AvailableItems.Values)
             {
-                if (slotUiItems.Count <= index)
-                {
-                    slotUiItems.Add(Instantiate(prefabSlotUI, contentRoot));
-                }
-
-                slotUiItems[index].SetText($"Equip ID:{equipmentItem.BalanceID.ToString()}");
-                slotUiItems[index].gameObject.SetActive(true);
-
-                index++;
+                CreateSlotUI(equipmentItem);
             }
+        }
 
-            while (index < slotUiItems.Count)
+        private void CreateSlotUI(IEquipmentItem equipmentItem)
+        {
+            var slotUI = Instantiate(prefabSlotUI, contentRoot);
+            slotUI.UpdateUI(equipmentItem);
+            slotUI.SetListener(() => OnSlotClicked(equipmentItem.ObjectId));
+            slots.Add(equipmentItem.ObjectId, slotUI);
+        }
+
+        private void OnSlotClicked(string id)
+        {
+            var payload = new ShowInventoryItemPopupData
             {
-                slotUiItems[index].gameObject.SetActive(false);
-            }
+                InventoryObjectId = id,
+            };
+            commandExecutionService.Execute<ShowInventoryItemPopupCommand, ShowInventoryItemPopupData>(payload);
+        }
+
+        private void AddSlotUI(IEquipmentItem equipmentItem)
+        {
+            CreateSlotUI(equipmentItem);
+        }
+
+        private void RemoveSlotUI(IEquipmentItem equipmentItem)
+        {
+            slots.Remove(equipmentItem.ObjectId);
+        }
+
+        private void UpdateSlotUI(string id)
+        {
+            var equipmentItem = equipmentServiceProvider.AvailableItems[id];
+            slots[id].UpdateUI(equipmentItem);
         }
     }
 }
