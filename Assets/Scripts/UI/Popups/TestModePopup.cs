@@ -2,9 +2,6 @@
 using Core.CommandRunner.Interfaces;
 using Core.Services.EquipmentService.Implementation;
 using Core.Services.EquipmentService.Interfaces;
-using Core.Services.HealthService.Interfaces;
-using Core.Services.InventoryService.Interfaces;
-using Core.Services.ProductionService.Interfaces;
 using Core.Services.UI;
 using UnityEngine;
 using UnityEngine.UI;
@@ -17,12 +14,10 @@ namespace UI.Popups
         [SerializeField] private Button closeButton = default;
         [SerializeField] private Button addHealthButton = default;
         [SerializeField] private Button removeHealthButton = default;
-        [SerializeField] private Button startProductionButton = default;
         [SerializeField] private Button addEquipmentItemId1Button;
 
         private ICommandExecutionService commandExecutionService;
         private IEquipmentService equipmentService;
-        private IProductionService productionService;
 
         private void Start()
         {
@@ -41,11 +36,6 @@ namespace UI.Popups
                 commandExecutionService.Execute<DecreaseHealthCommand, DecreaseHealthData>(new DecreaseHealthData {Value = 10});
             });
 
-            startProductionButton.onClick.AddListener(() =>
-            {
-                productionService.TryStartCycle("test", 1);
-            });
-
             addEquipmentItemId1Button.onClick.AddListener(() =>
             {
                 equipmentService.AddItem(new EquipmentItem());
@@ -55,12 +45,10 @@ namespace UI.Popups
         [Inject]
         public void Construct(
             ICommandExecutionService commandExecutionService,
-            IEquipmentService equipmentService,
-            IProductionService productionService)
+            IEquipmentService equipmentService)
         {
             this.commandExecutionService = commandExecutionService;
             this.equipmentService = equipmentService;
-            this.productionService = productionService;
         }
     }
 }
