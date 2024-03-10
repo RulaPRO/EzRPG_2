@@ -19,6 +19,8 @@ namespace Core.Services
 
         private readonly IUIFactory uiFactory;
 
+        private UIScreen activeScreen;
+
         public UIService(IUIFactory uiFactory)
         {
             this.uiFactory = uiFactory;
@@ -48,10 +50,21 @@ namespace Core.Services
 
         public TScreen ShowScreen<TScreen>() where TScreen : UIScreen
         {
-            var screen = GetScreen<TScreen>();
-            screen.Show();
+            var screenType = typeof(TScreen);
+            if (activeScreen != null && activeScreen.GetType() == screenType)
+            {
+                return activeScreen as TScreen;
+            }
 
-            return screen;
+            if (activeScreen != null)
+            {
+                activeScreen.Hide();
+            }
+
+            activeScreen = GetScreen<TScreen>();
+            activeScreen.Show();
+
+            return activeScreen as TScreen;
         }
 
         public void HideScreen<TScreen>() where TScreen : UIScreen

@@ -3,5 +3,6 @@
     public interface IHaveObjectId
     {
         string ObjectId { get; }
+        string ShortObjectId => ObjectId.Substring(0, 8);
     }
 }
