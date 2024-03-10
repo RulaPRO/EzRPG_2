@@ -3,6 +3,10 @@ using Core.CommandRunner.Interfaces;
 using Core.Factories;
 using Core.Factories.Interfaces;
 using Core.Services;
+using Core.Services.CardDeckService.Implementation;
+using Core.Services.CardDeckService.Interfaces;
+using Core.Services.CombatService.Implementation;
+using Core.Services.CombatService.Interfaces;
 using Core.Services.EquipmentService.Implementation;
 using Core.Services.EquipmentService.Interfaces;
 using Core.Services.HealthService.Implementation;
@@ -33,6 +37,10 @@ public class GameLifetimeScope : LifetimeScope
         builder.Register<IEquipmentServiceProvider, EquipmentServiceProvider>(Lifetime.Singleton);
 
         builder.Register<IProductionService, ProductionService>(Lifetime.Singleton);
+        
+        builder.Register<ICardDeckService, CardDeckService>(Lifetime.Singleton);
+
+        builder.Register<ICombatService, CombatService>(Lifetime.Singleton);
 
         builder.RegisterEntryPoint<GameSessionStarter>();
     }
