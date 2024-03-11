@@ -93,14 +93,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4776766d9f904ce2a99a65763066ee71, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idLabel: {fileID: 7319865074391689728}
-  canvasGroup: {fileID: 6820001792363439764}
-  longPressTimeConstant: 1
   cardElementsUI:
   - {fileID: 333597120831298560}
   - {fileID: 8013394716931894052}
   - {fileID: 190797981452380098}
   - {fileID: 1043069120542938917}
+  canvasGroup: {fileID: 6820001792363439764}
+  longPressTimeConstant: 1
 --- !u!225 &6820001792363439764
 CanvasGroup:
   m_ObjectHideFlags: 0
@@ -174,7 +173,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -514,7 +513,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_RaycastTarget: 1
+  m_RaycastTarget: 0
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
